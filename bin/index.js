@@ -100,5 +100,7 @@ await execa("npm i", {
   stdio: [2, 2, 2],
 });
 console.log(chalk.gray(`Install over`));
-console.log(chalk.bgWhite(`now open the http://localhost:${inputConfig.port}/ \n`));
+console.log(chalk.gray(`cd ${getRootPath()}`));
+console.log(chalk.gray(`node index.js`));
+console.log(chalk.gray(`open the`), chalk.red(`http://localhost:${inputConfig.port}/ \n`));
 

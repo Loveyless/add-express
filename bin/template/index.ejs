@@ -43,7 +43,7 @@ db.then(
 
     //来吧
     app.get("/", (req, res, next) => {
-      res.send("8080 OK");
+      res.send("get <%= port %> OK");
     });
     <% if (jwt) { %>
     //模拟jwt分发token登陆逻辑
@@ -86,6 +86,6 @@ db.then(
 );
 
 app.listen(<%= port %>, (err) => {
-  !err && console.log("node true for :8080");
+  !err && console.log("node true");
   err && console.log("node err", err.message);
 });
