@@ -44,13 +44,16 @@ const inputConfig = {
   packageName: r.packageName,
   port: r.port || 8080,
   middleware: {
-    jwt: r.middleware.includes("jwt"),
+    jwt: r.middleware.includes("jwt")
   },
 };
+//解构用户输入
+const { packageName, port } = inputConfig;
+const { jwt } = inputConfig.middleware;
 
 //把根路径抽离一下
 function getRootPath() {
-  return `./${inputConfig.packageName}`;
+  return `./${packageName}`;
 }
 
 //先删除文件夹
@@ -65,30 +68,19 @@ fs.rmSync(
   }
 );
 
-
-
 // 创建文件夹 hei
 console.log(chalk.gray(`create ${getRootPath()} file`));
 fs.mkdirSync(getRootPath());
 
-
-
 // 创建入口文件index.js和数据库文件                   //传入用户输入的数据
 console.log(chalk.gray(`create ${getRootPath()}/index.js`));
 console.log(chalk.gray(`create ${getRootPath()}/db.js`));
-fs.writeFileSync(`${getRootPath()}/index.js`, createIndexTemplate(inputConfig.middleware.jwt, inputConfig.port));
+fs.writeFileSync(`${getRootPath()}/index.js`, createIndexTemplate(jwt, port));
 fs.writeFileSync(`${getRootPath()}/db.js`, createDbTemplate());
-
-
 
 // 创建package.json
 console.log(chalk.gray(`create ${getRootPath()}/package.json`));
-fs.writeFileSync(
-  `${getRootPath()}/package.json`,
-  createPackagejson(inputConfig.middleware.jwt, inputConfig.packageName)
-);
-
-
+fs.writeFileSync(`${getRootPath()}/package.json`, createPackagejson(jwt, packageName));
 
 // 4. 安装依赖
 console.log(chalk.gray(`Install dependencies ...`));
@@ -102,5 +94,4 @@ await execa("npm i", {
 console.log(chalk.gray(`Install over`));
 console.log(chalk.gray(`cd ${getRootPath()}`));
 console.log(chalk.gray(`node index.js`));
-console.log(chalk.gray(`open the`), chalk.red(`http://localhost:${inputConfig.port}/ \n`));
-
+console.log(chalk.gray(`open the`), chalk.red(`http://localhost:${port}/ \n`));
